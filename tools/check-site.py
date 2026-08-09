@@ -271,6 +271,41 @@ def check_nav_contract():
         fail("nav: must show assets/img/logo.svg")
 
 
+# --- generated imagery -----------------------------------------------------
+
+SLUGS = ["dashboard", "project-vmodel", "model-create", "requirements-editor",
+         "phase-complete", "design-create", "sysml-graphical-textual",
+         "epsilon-analysis", "state-machine", "modelica-sim", "fmu-runtime",
+         "fmea", "java-impl", "formal-verification", "gsn", "cae",
+         "gsn-evidence-run", "twin-3d", "twin-dashboard", "trace-panel",
+         "trace-navigate", "sim-binding", "digital-thread", "digital-thread-2",
+         "digital-thread-3"]
+
+MAX_BYTES = {"1600": 260_000, "900": 110_000}
+
+
+def check_images():
+    shots = ROOT / "assets" / "img" / "shots"
+    for slug in SLUGS:
+        for width, limit in MAX_BYTES.items():
+            path = shots / f"{slug}-{width}.webp"
+            if not path.exists():
+                fail(f"missing generated image {path.relative_to(ROOT)}")
+            elif path.stat().st_size > limit:
+                fail(f"{path.name} is {path.stat().st_size // 1024}KB, "
+                     f"over the {limit // 1024}KB budget")
+
+    card = ROOT / "assets" / "img" / "og-card.png"
+    if not card.exists():
+        fail("missing assets/img/og-card.png")
+    else:
+        data = card.read_bytes()[:33]
+        width = int.from_bytes(data[16:20], "big")
+        height = int.from_bytes(data[20:24], "big")
+        if (width, height) != (1200, 630):
+            fail(f"og-card.png is {width}x{height}, must be 1200x630")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -282,6 +317,7 @@ CHECKS = [
     check_no_stray_hex,
     check_shared_blocks,
     check_nav_contract,
+    check_images,
 ]
 
 
