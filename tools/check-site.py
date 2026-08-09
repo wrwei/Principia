@@ -173,6 +173,71 @@ def check_sitemap_and_robots():
         fail(".nojekyll is missing — GitHub Pages will run Jekyll")
 
 
+# --- design tokens ---------------------------------------------------------
+
+REQUIRED_TOKENS = ["cream", "sand", "card", "line", "dark", "ink", "ink-2",
+                   "brown", "brown-dark", "tick", "step-hero", "step-h2",
+                   "step-body", "step-ui", "container", "prose"]
+
+# (foreground token, background token, minimum ratio)
+CONTRAST_PAIRS = [
+    ("ink", "cream", 4.5), ("ink", "sand", 4.5), ("ink", "card", 4.5),
+    ("ink-2", "cream", 4.5), ("ink-2", "sand", 4.5),
+    ("brown", "cream", 4.5), ("brown-dark", "cream", 4.5),
+    ("brown-dark", "sand", 4.5), ("tick", "cream", 4.5), ("tick", "sand", 4.5),
+]
+
+HEX = re.compile(r"#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b")
+
+
+def _luminance(hex_colour):
+    h = hex_colour.lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    channels = []
+    for i in (0, 2, 4):
+        c = int(h[i:i + 2], 16) / 255
+        channels.append(c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4)
+    r, g, b = channels
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def _ratio(fg, bg):
+    a, b = _luminance(fg), _luminance(bg)
+    hi, lo = max(a, b), min(a, b)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+def check_tokens():
+    css = read("assets/css/tokens.css")
+    declared = dict(re.findall(r"--([\w-]+)\s*:\s*([^;]+);", css))
+    for token in REQUIRED_TOKENS:
+        if token not in declared:
+            fail(f"tokens.css: missing --{token}")
+    if "color-scheme" not in css:
+        fail("tokens.css: must declare color-scheme: light")
+    if "prefers-color-scheme" in css:
+        fail("tokens.css: spec is light-only — remove prefers-color-scheme")
+
+    for fg, bg, minimum in CONTRAST_PAIRS:
+        if fg not in declared or bg not in declared:
+            continue
+        fg_hex, bg_hex = declared[fg].strip(), declared[bg].strip()
+        if not (HEX.fullmatch(fg_hex) and HEX.fullmatch(bg_hex)):
+            fail(f"tokens.css: --{fg}/--{bg} must be plain hex for contrast checking")
+            continue
+        got = _ratio(fg_hex, bg_hex)
+        if got < minimum:
+            fail(f"tokens.css: --{fg} on --{bg} is {got:.2f}:1, need {minimum}:1")
+
+
+def check_no_stray_hex():
+    css = read("assets/css/site.css")
+    stray = HEX.findall(css)
+    if stray:
+        fail(f"site.css: hex literals must live in tokens.css, found {sorted(set(stray))}")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -180,6 +245,8 @@ CHECKS = [
     check_paths_relative,
     check_refs_exist,
     check_sitemap_and_robots,
+    check_tokens,
+    check_no_stray_hex,
 ]
 
 
