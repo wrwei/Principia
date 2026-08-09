@@ -13,19 +13,43 @@
 <meta property="og:image" content="https://wrwei.github.io/Principia/assets/img/og-card.png">
 <meta property="og:url" content="https://wrwei.github.io/Principia/">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <!-- nav:start -->
-<header class="nav"></header>
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/img/logo.svg" alt="" width="34" height="34">Principia
+    </a>
+    <button class="nav__toggle" id="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <ul class="nav__links" id="nav-links">
+      <li><a href="index.html#platform">Platform</a></li>
+      <li><a href="case-study.html">Case study</a></li>
+      <li><a href="index.html#standards">Standards</a></li>
+    </ul>
+    <a class="btn nav__cta" href="mailto:r.wei5@lancaster.ac.uk?subject=Principia%20walkthrough">Book a walkthrough</a>
+  </div>
+</header>
 <!-- nav:end -->
 <main id="main">
 <h1>Change a requirement. Watch it ripple to the twin.</h1>
 </main>
 <!-- footer:start -->
-<footer class="footer"></footer>
+<footer class="footer">
+  <div class="container">
+    <p>Principia — model-based systems engineering and assurance for complex systems.</p>
+    <p><a href="mailto:r.wei5@lancaster.ac.uk">r.wei5@lancaster.ac.uk</a> ·
+       <a href="https://github.com/wrwei">github.com/wrwei</a> ·
+       <a href="https://wrwei.github.io">wrwei.github.io</a></p>
+    <p class="footer__meta">Implements SysML v2, Ecore/EMF, GSN 3.0, CAE 1.0, SACM,
+       Modelica and FMI. Proprietary software. Lancaster University.</p>
+  </div>
+</footer>
 <!-- footer:end -->
 <script src="assets/js/site.js" defer></script>
 </body>

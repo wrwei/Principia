@@ -238,6 +238,39 @@ def check_no_stray_hex():
         fail(f"site.css: hex literals must live in tokens.css, found {sorted(set(stray))}")
 
 
+# --- shared blocks ---------------------------------------------------------
+
+def _block(src, name):
+    m = re.search(rf"<!-- {name}:start -->(.*?)<!-- {name}:end -->", src, re.S)
+    return m.group(1) if m else None
+
+
+def check_shared_blocks():
+    for name in ("nav", "footer"):
+        blocks = {}
+        for page, src in pages():
+            block = _block(src, name)
+            if block is None:
+                fail(f"{page}: missing <!-- {name}:start -->…<!-- {name}:end --> markers")
+            else:
+                blocks[page] = block
+        if len(blocks) == len(PAGES) and len(set(blocks.values())) != 1:
+            fail(f"{name} block differs between pages — it must be byte-identical")
+
+
+def check_nav_contract():
+    src = read("index.html")
+    nav = _block(src, "nav") or ""
+    if 'id="nav-toggle"' not in nav:
+        fail("nav: missing button#nav-toggle")
+    if 'aria-expanded' not in nav:
+        fail("nav: toggle needs aria-expanded")
+    if 'aria-controls="nav-links"' not in nav or 'id="nav-links"' not in nav:
+        fail("nav: toggle must control #nav-links")
+    if "assets/img/logo.svg" not in nav:
+        fail("nav: must show assets/img/logo.svg")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -247,6 +280,8 @@ CHECKS = [
     check_sitemap_and_robots,
     check_tokens,
     check_no_stray_hex,
+    check_shared_blocks,
+    check_nav_contract,
 ]
 
 
