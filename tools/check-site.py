@@ -306,6 +306,42 @@ def check_images():
             fail(f"og-card.png is {width}x{height}, must be 1200x630")
 
 
+# --- hero ------------------------------------------------------------------
+
+HERO_STAGES = ["Requirements", "Architecture", "Simulation",
+               "Assurance", "Verification", "Digital twin"]
+
+
+def check_hero():
+    src = read("index.html")
+    m = re.search(r'<section class="hero".*?</section>', src, re.S)
+    if not m:
+        fail("index.html: missing <section class=\"hero\">")
+        return
+    hero = m.group(0)
+    if 'viewBox="0 0 780 208"' not in hero:
+        fail("hero: diagram must use viewBox=\"0 0 780 208\"")
+    if "<img" in hero:
+        fail("hero: must contain no raster image — first paint waits on nothing")
+    for stage in HERO_STAGES:
+        if f">{stage}</text>" not in hero:
+            fail(f"hero diagram: missing stage label {stage!r}")
+    if 'class="hero__arc"' not in hero:
+        fail("hero diagram: missing the dashed trace/evidence arc group")
+    if "stroke-dasharray" not in read("assets/css/site.css"):
+        fail("site.css: .hero__arc must be dashed (stroke-dasharray)")
+    for label in ("trace link", "evidence link"):
+        if label not in hero:
+            fail(f"hero diagram: missing {label!r} annotation")
+    for figure in ("95+", "8.31M"):
+        if figure not in hero:
+            fail(f"hero stats: missing {figure!r}")
+    if "9</b>" not in hero and ">9<" not in hero:
+        fail("hero stats: missing the '9 languages' figure")
+    if 'id="platform"' not in src:
+        fail("index.html: missing #platform anchor for the nav")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -318,6 +354,7 @@ CHECKS = [
     check_shared_blocks,
     check_nav_contract,
     check_images,
+    check_hero,
 ]
 
 

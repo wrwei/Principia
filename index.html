@@ -37,7 +37,84 @@
 </header>
 <!-- nav:end -->
 <main id="main">
-<h1>Change a requirement. Watch it ripple to the twin.</h1>
+
+<section class="hero" id="platform">
+  <div class="container">
+    <p class="eyebrow">One continuous digital thread</p>
+    <h1>Change a requirement.<br>Watch it ripple to the twin.</h1>
+    <p class="hero__lead">Requirements, architecture, simulation, assurance and
+      verification are one linked model — so change-impact analysis is a query,
+      not a meeting.</p>
+
+    <svg class="hero__diagram" viewBox="0 0 780 208" role="img"
+         aria-label="Requirements, architecture, simulation, assurance and verification link forward to a digital twin, with trace and evidence links connecting non-adjacent stages.">
+      <defs>
+        <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 z" class="hero__arrowhead" />
+        </marker>
+      </defs>
+      <g class="hero__node">
+        <rect x="10" y="70" width="110" height="58" rx="10" />
+        <rect x="10" y="70" width="4" height="58" rx="2" class="hero__rule" />
+        <text x="24" y="95">Requirements</text>
+        <text x="24" y="114" class="hero__sub">satisfy · derive</text>
+      </g>
+      <g class="hero__node">
+        <rect x="140" y="70" width="110" height="58" rx="10" />
+        <rect x="140" y="70" width="4" height="58" rx="2" class="hero__rule" />
+        <text x="154" y="95">Architecture</text>
+        <text x="154" y="114" class="hero__sub">parts · ports</text>
+      </g>
+      <g class="hero__node">
+        <rect x="270" y="70" width="110" height="58" rx="10" />
+        <rect x="270" y="70" width="4" height="58" rx="2" class="hero__rule" />
+        <text x="284" y="95">Simulation</text>
+        <text x="284" y="114" class="hero__sub">Modelica · FMU</text>
+      </g>
+      <g class="hero__node">
+        <rect x="400" y="70" width="110" height="58" rx="10" />
+        <rect x="400" y="70" width="4" height="58" rx="2" class="hero__rule" />
+        <text x="414" y="95">Assurance</text>
+        <text x="414" y="114" class="hero__sub">GSN · CAE</text>
+      </g>
+      <g class="hero__node">
+        <rect x="530" y="70" width="110" height="58" rx="10" />
+        <rect x="530" y="70" width="4" height="58" rx="2" class="hero__rule" />
+        <text x="544" y="95">Verification</text>
+        <text x="544" y="114" class="hero__sub">Dafny · FDR · Isabelle</text>
+      </g>
+      <g class="hero__node hero__node--twin">
+        <rect x="660" y="70" width="110" height="58" rx="10" />
+        <text x="674" y="95">Digital twin</text>
+        <text x="674" y="114" class="hero__sub">live telemetry</text>
+      </g>
+      <g class="hero__flow">
+        <path d="M122,99 L136,99" /><path d="M252,99 L266,99" />
+        <path d="M382,99 L396,99" /><path d="M512,99 L526,99" />
+        <path d="M642,99 L656,99" />
+      </g>
+      <g class="hero__arc">
+        <path d="M65,70 C65,30 325,30 325,70" />
+        <path d="M195,128 C195,172 455,172 455,128" />
+        <path d="M65,70 C65,12 585,12 585,70" />
+      </g>
+      <text x="325" y="24" class="hero__annot">trace link</text>
+      <text x="455" y="188" class="hero__annot">evidence link</text>
+    </svg>
+
+    <p class="hero__actions">
+      <a class="btn" href="mailto:r.wei5@lancaster.ac.uk?subject=Principia%20pilot">Arrange a pilot</a>
+      <a class="btn btn--ghost" href="case-study.html">See the full walkthrough</a>
+    </p>
+
+    <dl class="stats">
+      <div class="stats__item"><dd><b>95+</b></dd><dt>SysML v2 meta types</dt></div>
+      <div class="stats__item"><dd><b>9</b></dd><dt>languages, one model</dt></div>
+      <div class="stats__item"><dd><b>8.31M</b></dd><dt>lines of code</dt></div>
+    </dl>
+  </div>
+</section>
+
 </main>
 <!-- footer:start -->
 <footer class="footer">
