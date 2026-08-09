@@ -342,6 +342,86 @@ def check_hero():
         fail("index.html: missing #platform anchor for the nav")
 
 
+# --- figures and mid-page bands -------------------------------------------
+
+FIG = re.compile(r"<img\b[^>]*>", re.S)
+
+
+def _webp_size(path):
+    """Width and height from a WebP header, without leaving the stdlib."""
+    data = path.read_bytes()[:32]
+    if data[12:16] == b"VP8 ":
+        return (int.from_bytes(data[26:28], "little") & 0x3FFF,
+                int.from_bytes(data[28:30], "little") & 0x3FFF)
+    if data[12:16] == b"VP8X":
+        return (int.from_bytes(data[24:27], "little") + 1,
+                int.from_bytes(data[27:30], "little") + 1)
+    return None
+
+
+def _attr(tag, name):
+    m = re.search(rf'{name}="([^"]*)"', tag)
+    return m.group(1) if m else None
+
+
+def _check_figure_contract(page, src, *, require_lazy=True):
+    for tag in FIG.findall(src):
+        if 'src="assets/img/logo.svg"' in tag:
+            continue  # the mark is not a screenshot
+        for attr in ("width=", "height=", "alt=", "srcset="):
+            if attr not in tag:
+                fail(f"{page}: <img> missing {attr.rstrip('=')} — {tag[:70]}…")
+        if "-1600.webp" not in tag or "-900.webp" not in tag:
+            fail(f"{page}: <img> srcset must offer both widths — {tag[:70]}…")
+        if require_lazy and 'loading="lazy"' not in tag:
+            fail(f"{page}: below-fold <img> needs loading=\"lazy\" — {tag[:70]}…")
+
+        # Declared dimensions must match the largest candidate, or the
+        # reserved box is the wrong shape and the page shifts as it loads.
+        widest = re.search(r"([\w./-]+-1600\.webp)", tag)
+        declared_w, declared_h = _attr(tag, "width"), _attr(tag, "height")
+        if widest and declared_w and declared_h:
+            path = ROOT / widest.group(1)
+            if path.exists():
+                actual = _webp_size(path)
+                if actual and actual != (int(declared_w), int(declared_h)):
+                    fail(f"{page}: {path.name} is {actual[0]}x{actual[1]} but the "
+                         f"tag declares {declared_w}x{declared_h} — causes layout shift")
+
+
+def check_landing_bands():
+    src = read("index.html")
+    _check_figure_contract("index.html", src)
+
+    strip = re.search(r'<section class="band shots".*?</section>', src, re.S)
+    if not strip:
+        fail("index.html: missing proof strip section")
+    else:
+        n = len(FIG.findall(strip.group(0)))
+        if n != 3:
+            fail(f"proof strip: expected 3 screenshots, found {n}")
+        for slug in ("requirements-editor", "modelica-sim", "gsn"):
+            if slug not in strip.group(0):
+                fail(f"proof strip: missing {slug}")
+
+    caps = re.search(r'<ul class="grid-9">(.*?)</ul>', src, re.S)
+    if not caps:
+        fail("index.html: missing capabilities grid (ul.grid-9)")
+    elif caps.group(1).count("<li") != 9:
+        fail(f"capabilities grid: expected 9 items, found {caps.group(1).count('<li')}")
+
+    langs = re.search(r'<section class="band band--sand langs".*?</section>', src, re.S)
+    if not langs:
+        fail("index.html: missing languages band")
+    else:
+        for lang in ("SysML v2", "Ecore", "GSN 3.0", "CAE", "Modelica",
+                     "DSL", "CSP", "Dafny", "Isabelle"):
+            if lang not in langs.group(0):
+                fail(f"languages band: missing {lang!r}")
+    if 'id="standards"' not in src:
+        fail("index.html: missing #standards anchor for the nav")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -355,6 +435,7 @@ CHECKS = [
     check_nav_contract,
     check_images,
     check_hero,
+    check_landing_bands,
 ]
 
 

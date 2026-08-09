@@ -81,6 +81,42 @@
 .stats b { font-size: 1.875rem; letter-spacing: -0.03em; }
 .stats dt { font-size: 0.8125rem; color: var(--ink-2); }
 
+/* --- proof strip, problem, capabilities, languages ----------------------- */
+
+.shots__grid, .problem__grid, .langs__grid {
+  display: grid; gap: var(--space-4);
+}
+.shots__grid { grid-template-columns: repeat(3, 1fr); }
+.problem__grid { grid-template-columns: repeat(3, 1fr); margin-top: var(--space-5); }
+.langs__grid { grid-template-columns: 1.4fr 1fr; margin-top: var(--space-5); }
+
+.shot { margin: 0; }
+.shot img { width: 100%; height: auto; border: 1px solid var(--line);
+            border-radius: var(--radius-sm); box-shadow: var(--shadow-shot);
+            display: block; }
+.shot figcaption { font-size: 0.8125rem; color: var(--ink-2);
+                   margin-top: var(--space-2); }
+.shot figcaption b { display: block; font-size: var(--step-ui); color: var(--ink); }
+
+.grid-9 { list-style: none; padding: 0; margin: var(--space-5) 0 0;
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+.grid-9 li { background: var(--card); border: 1px solid var(--line);
+             border-radius: var(--radius); padding: var(--space-4); }
+.grid-9 h3, .problem__grid h3, .langs__grid h3 { margin: 0 0 var(--space-2);
+                                                  font-size: 1.0625rem; }
+.grid-9 p, .problem__grid p { margin: 0; color: var(--ink-2);
+                              font-size: 0.9375rem; }
+.langs__grid ul { margin: 0; padding-left: 1.1em; color: var(--ink-2);
+                  font-size: 0.9375rem; }
+.langs__grid li { margin-bottom: var(--space-2); }
+.langs__grid b { color: var(--ink); }
+
+@media (max-width: 820px) {
+  .shots__grid, .problem__grid, .grid-9, .langs__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- footer -------------------------------------------------------------- */
 
 .footer { background: var(--dark); color: var(--cream); padding: var(--space-6) 0; }
