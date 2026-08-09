@@ -117,6 +117,27 @@
   }
 }
 
+/* --- capability matrix --------------------------------------------------- */
+
+.matrix__hint { font-size: 0.8125rem; color: var(--ink-2);
+                margin: var(--space-4) 0 var(--space-2); }
+.matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch;
+                 border: 1px solid var(--line); border-radius: var(--radius);
+                 background: var(--card); }
+.matrix { border-collapse: collapse; width: 100%; min-width: 760px;
+          font-size: 0.8125rem; }
+.matrix th, .matrix td { padding: 10px 8px; text-align: center;
+                         border-bottom: 1px solid var(--line); }
+.matrix thead th { font-size: 0.6875rem; line-height: 1.25;
+                   color: var(--ink-2); font-weight: 600; vertical-align: bottom; }
+.matrix th[scope="row"] { position: sticky; left: 0; background: var(--card);
+                          text-align: left; font-weight: 600; white-space: nowrap;
+                          border-right: 1px solid var(--line); }
+.matrix tbody tr:last-child th[scope="row"],
+.matrix tbody tr:last-child td { background: var(--sand); font-weight: 700; }
+.matrix .tick { color: var(--tick); font-weight: 700; }
+.matrix .no { color: var(--ink-2); opacity: 0.5; }
+
 /* --- footer -------------------------------------------------------------- */
 
 .footer { background: var(--dark); color: var(--cream); padding: var(--space-6) 0; }

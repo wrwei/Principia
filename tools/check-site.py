@@ -422,6 +422,67 @@ def check_landing_bands():
         fail("index.html: missing #standards anchor for the nav")
 
 
+# --- capability matrix -----------------------------------------------------
+
+MATRIX_TOOLS = ["MagicDraw", "Simcenter", "Ansys", "Enterprise Architect",
+                "Rhapsody", "Capella", "OSATE", "OpenModelica", "Simulink",
+                "Principia"]
+
+
+def check_matrix():
+    src = read("index.html")
+    m = re.search(r'<table class="matrix">.*?</table>', src, re.S)
+    if not m:
+        fail("index.html: missing <table class=\"matrix\">")
+        return
+    table = m.group(0)
+
+    if "<caption" not in table:
+        fail("matrix: needs a <caption>")
+    col_headers = re.findall(r'<th scope="col"', table)
+    if len(col_headers) != 8:
+        fail(f"matrix: expected 8 scope=\"col\" headers, found {len(col_headers)}")
+    row_headers = re.findall(r'<th scope="row"', table)
+    if len(row_headers) != 10:
+        fail(f"matrix: expected 10 scope=\"row\" headers, found {len(row_headers)}")
+    for tool in MATRIX_TOOLS:
+        if tool not in table:
+            fail(f"matrix: missing row for {tool}")
+
+    rows = re.findall(r"<tr>.*?</tr>", table, re.S)
+    principia = [r for r in rows if "Principia" in r]
+    if not principia:
+        fail("matrix: no Principia row")
+    else:
+        if rows[-1] != principia[-1]:
+            fail("matrix: the Principia row must come last")
+        ticks = principia[-1].count('class="tick"')
+        if ticks != 8:
+            fail(f"matrix: Principia row has {ticks} ticks, expected 8")
+
+    for cell in re.findall(r'<span class="(?:tick|no)"[^>]*>.*?</span>', table, re.S):
+        if 'aria-hidden="true"' not in cell:
+            fail(f"matrix: symbol needs aria-hidden — {cell[:50]}")
+    if table.count("visually-hidden") < 80:
+        fail("matrix: every cell needs visually-hidden supported/not-supported text")
+
+    scroll = re.search(r'<div class="matrix-scroll"[^>]*>', src)
+    if not scroll:
+        fail("index.html: matrix must sit inside div.matrix-scroll")
+    else:
+        for attr in ('tabindex="0"', 'role="region"', "aria-label"):
+            if attr not in scroll.group(0):
+                fail(f"matrix-scroll: missing {attr}")
+        if 'id="matrix-scroll"' not in scroll.group(0):
+            fail("matrix-scroll: missing id=\"matrix-scroll\" for the JS hint")
+    if 'id="matrix-hint"' not in src:
+        fail("index.html: missing #matrix-hint scroll affordance")
+
+    css = read("assets/css/site.css")
+    if "position: sticky" not in css or "left: 0" not in css:
+        fail("site.css: matrix first column must be position: sticky; left: 0")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -436,6 +497,7 @@ CHECKS = [
     check_images,
     check_hero,
     check_landing_bands,
+    check_matrix,
 ]
 
 
