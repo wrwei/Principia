@@ -483,6 +483,73 @@ def check_matrix():
         fail("site.css: matrix first column must be position: sticky; left: 0")
 
 
+# --- closing bands and copy rules -----------------------------------------
+
+def check_closing_bands():
+    src = read("index.html")
+
+    formal = re.search(r'<section class="band band--dark formal".*?</section>', src, re.S)
+    if not formal:
+        fail("index.html: missing formal verification band")
+    else:
+        for term in ("CSP", "FDR", "Dafny", "Isabelle", "GSN"):
+            if term not in formal.group(0):
+                fail(f"formal band: missing {term!r}")
+
+    splits = re.findall(r'<section class="band[^"]*\bsplit\b[^"]*">.*?</section>',
+                        src, re.S)
+    if len(splits) != 3:
+        fail(f"expected 3 deep-dive sections, found {len(splits)}")
+    else:
+        ai = [s for s in splits if "AI4Engineering" in s]
+        if not ai:
+            fail("deep-dives: missing the AI4Engineering section")
+        elif "<img" in ai[0]:
+            fail("AI4Engineering deep-dive must stay text-only — no screenshot "
+                 "exists for it (design spec §9.1)")
+        for slug in ("sim-binding", "trace-navigate"):
+            if slug not in " ".join(splits):
+                fail(f"deep-dives: missing {slug} screenshot")
+
+    teaser = re.search(r'<section class="band teaser".*?</section>', src, re.S)
+    if not teaser:
+        fail("index.html: missing case-study teaser")
+    elif "case-study.html" not in teaser.group(0):
+        fail("teaser: must link to case-study.html")
+
+    contact = re.search(r'<section class="band band--sand contact".*?</section>', src, re.S)
+    if not contact:
+        fail("index.html: missing contact band")
+    else:
+        body = contact.group(0)
+        if "mailto:r.wei5@lancaster.ac.uk" not in body:
+            fail("contact: missing the pilot enquiry mailto")
+        if "Lancaster" not in body:
+            fail("contact: should name the Lancaster affiliation")
+        if "github.com/wrwei" not in body:
+            fail("contact: should link github.com/wrwei")
+
+
+FORBIDDEN = {
+    "UKAEA": "third party must not be named (design spec §6)",
+    "satellite": "erroneous deck caption, the subject is the ADS (design spec §6)",
+    "Satellite": "erroneous deck caption, the subject is the ADS (design spec §6)",
+}
+PRICING_WORDS = ["per seat", "per-seat", "Pricing", "Sign up", "Free trial",
+                 "Start free"]
+
+
+def check_copy_rules():
+    for name, src in pages():
+        for word, why in FORBIDDEN.items():
+            if word in src:
+                fail(f"{name}: contains {word!r} — {why}")
+        for word in PRICING_WORDS:
+            if word in src:
+                fail(f"{name}: contains {word!r} — the site is pre-commercial, "
+                     f"no pricing or signup (design spec §1)")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -498,6 +565,8 @@ CHECKS = [
     check_hero,
     check_landing_bands,
     check_matrix,
+    check_closing_bands,
+    check_copy_rules,
 ]
 
 

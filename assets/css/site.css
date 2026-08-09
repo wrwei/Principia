@@ -138,6 +138,32 @@
 .matrix .tick { color: var(--tick); font-weight: 700; }
 .matrix .no { color: var(--ink-2); opacity: 0.5; }
 
+/* --- formal verification, deep-dives, teaser, contact -------------------- */
+
+.formal__grid { display: grid; grid-template-columns: repeat(4, 1fr);
+                gap: var(--space-4); margin-top: var(--space-5); }
+.formal__grid h3 { margin: 0 0 var(--space-2); font-size: 1rem; }
+.formal__grid p { margin: 0; font-size: 0.9375rem; opacity: 0.78; }
+.band--dark .band__lead { color: var(--cream); }
+.band--dark .eyebrow { color: var(--cream); opacity: 0.6; }
+
+.split__inner { display: grid; grid-template-columns: 1fr 1fr;
+                gap: var(--space-6); align-items: center; }
+.split--flip .split__inner > div { order: 2; }
+.split--solo .band__lead { max-width: var(--prose); }
+.split h2 { margin: 0 0 var(--space-3); }
+.split p { color: var(--ink-2); }
+
+.teaser__grid { display: grid; grid-template-columns: 1fr 1fr;
+                gap: var(--space-4); margin: var(--space-5) 0; }
+.contact__actions { display: flex; gap: var(--space-3); flex-wrap: wrap;
+                    margin: var(--space-5) 0; }
+
+@media (max-width: 820px) {
+  .formal__grid, .split__inner, .teaser__grid { grid-template-columns: 1fr; }
+  .split--flip .split__inner > div { order: 0; }
+}
+
 /* --- footer -------------------------------------------------------------- */
 
 .footer { background: var(--dark); color: var(--cream); padding: var(--space-6) 0; }
