@@ -164,6 +164,25 @@
   .split--flip .split__inner > div { order: 0; }
 }
 
+/* --- case study ---------------------------------------------------------- */
+
+.phase-intro { padding-bottom: 0; }
+.phase h2 { margin: 0 0 var(--space-2); }
+.phase__shots { display: grid; gap: var(--space-4); margin-top: var(--space-5);
+                grid-template-columns: repeat(2, 1fr); }
+.phase__shots .shot img { cursor: zoom-in; }
+
+.lightbox { border: none; padding: 0; max-width: 92vw; max-height: 92vh;
+            background: var(--card); border-radius: var(--radius); }
+.lightbox::backdrop { background: rgb(34 29 25 / 0.72); }
+.lightbox img { display: block; width: 100%; height: auto; }
+.lightbox__close { position: absolute; top: var(--space-3); right: var(--space-3);
+                   background: var(--dark); color: var(--cream); border: none;
+                   border-radius: var(--radius-sm); padding: 8px 14px;
+                   font-size: var(--step-ui); cursor: pointer; }
+
+@media (max-width: 820px) { .phase__shots { grid-template-columns: 1fr; } }
+
 /* --- footer -------------------------------------------------------------- */
 
 .footer { background: var(--dark); color: var(--cream); padding: var(--space-6) 0; }

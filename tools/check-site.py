@@ -550,6 +550,42 @@ def check_copy_rules():
                      f"no pricing or signup (design spec §1)")
 
 
+# --- case study ------------------------------------------------------------
+
+PHASES = ["Home and project management", "Requirements", "System design",
+          "Module design", "Implementation", "Integration", "Digital twin",
+          "Trace links", "Digital thread"]
+
+
+def check_case_study():
+    src = read("case-study.html")
+    _check_figure_contract("case-study.html", src)
+
+    for phase in PHASES:
+        if phase not in src:
+            fail(f"case-study.html: missing phase heading {phase!r}")
+    # Match the class token exactly — "phase-intro" must not count as "phase".
+    sections = [c for c in re.findall(r'<section class="([^"]*)"', src)
+                if "phase" in c.split()]
+    if len(sections) != 9:
+        fail(f"case-study.html: expected 9 phase sections, found {len(sections)}")
+
+    # Real screenshots only: not the nav mark, not the lightbox's own <img>.
+    screenshots = [f for f in FIG.findall(src)
+                   if "logo.svg" not in f and 'id="lightbox-img"' not in f]
+    if len(screenshots) != 24:
+        fail(f"case-study.html: expected 24 screenshots, found {len(screenshots)}")
+    for tag in screenshots:
+        if "data-lightbox" not in tag:
+            fail(f"case-study.html: screenshot needs data-lightbox — {tag[:70]}…")
+
+    if "fusion fuel cycle" not in src:
+        fail("case-study.html: should describe the subject as an atmosphere "
+             "detritiation system in a fusion fuel cycle")
+    if 'id="lightbox"' not in src:
+        fail("case-study.html: missing <dialog id=\"lightbox\">")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -567,6 +603,7 @@ CHECKS = [
     check_matrix,
     check_closing_bands,
     check_copy_rules,
+    check_case_study,
 ]
 
 
