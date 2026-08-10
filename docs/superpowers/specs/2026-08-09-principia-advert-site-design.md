@@ -26,7 +26,7 @@ Success criteria:
 
 - A domain-literate visitor understands the differentiator (one continuous digital
   thread) within one screen, without scrolling.
-- The eight-criteria competitive claim is legible and defensible.
+- Every competitive claim survives a knowledgeable buyer checking it.
 - The site loads fast enough that first paint waits on no image.
 - Nothing on the site overstates what the platform does, and nothing names a third
   party without permission.
@@ -49,8 +49,8 @@ a third page for research/academia, and any change to `Principia_release`.
 | Pages | `index.html` + `case-study.html` | ~90% of the deck's persuasive weight, minimal duplication |
 | Hero | Direction C — thread diagram, inline SVG | States the one thing no competitor can copy; zero image payload |
 | Feature status | All deck capabilities presented as shipped | Confirmed by the user; the release repo's docs are stale (see §9) |
-| Matrix | Stays at eight criteria | Preserves the "all eight" line; a ninth column on an already-wide table hurts mobile |
-| Formal verification | Its own band after the matrix | Reads as a category the competition doesn't occupy, not one more tick |
+| Comparison | By tool **category**, not by product | A per-vendor cell table was falsified within a year — see §5 and §9.5 |
+| Formal verification | Its own band after the comparison | The strongest differentiator, and stated without an absolute claim about competitors |
 | Third-party names | UKAEA is **not** named | No confirmed permission; implies endorsement |
 | Institutional affiliation | Not claimed anywhere | User instruction; only the contact email carries the domain |
 | Colour scheme | Light only, `color-scheme: light` | The warm cream identity *is* the brand; a dark variant doubles CSS for a brochure |
@@ -172,16 +172,36 @@ Verified in the release repo rather than taken from the deck:
 `isabelle`; `server/formal-tools.json.example` wires all three tools; and
 `server/seed/ads/` carries seeded Dafny and FDR models.
 
-### Capability matrix (band 7)
+### Comparison table (band 7)
 
-Rows: MagicDraw/Cameo, Simcenter, Ansys ModelCenter, Enterprise Architect, Rhapsody,
-Capella, OSATE, OpenModelica, Simulink, **Principia**. Columns: B/S architecture,
-SysML v2, custom language, deep model management, real-time collaboration, AI copilot,
-executable trace links, simulation binding. Cell values exactly as s12, including
-Rhapsody's partial (△) on SysML v2.
+**The deck's ten-product, eight-criteria matrix (s12) is not used.** It was verified
+in August 2026 and found materially out of date — see §9.5. It is replaced by a
+comparison across the four *categories* of tool a team would otherwise buy.
 
-Placed mid-page deliberately. Cold at the top, "the only platform with all eight" is
-a claim; arriving after bands 3–6 it is a summary of things already shown.
+Columns: Architecture tool · Simulation tool · Assurance tool · Proof assistant ·
+**Principia** (last, highlighted, the arrival point). Rows:
+
+| Capability | Arch | Sim | Assur | Proof | Principia |
+|---|---|---|---|---|---|
+| SysML v2 system model | ✔ | — | — | — | ✔ |
+| Modelica and FMU simulation | — | ✔ | — | — | ✔ |
+| GSN, CAE and SACM argument | — | — | ✔ | — | ✔ |
+| CSP, Dafny and Isabelle proof | — | — | — | ✔ | ✔ |
+| SysML parameters bound to simulation variables | — | — | — | — | ✔ |
+| Trace links spanning all four domains | — | — | — | — | ✔ |
+| Proof results re-run as assurance evidence | — | — | — | — | ✔ |
+
+The top four rows concede each category its own strength. The bottom three are
+cross-cutting, and a single-category tool cannot satisfy them by construction — which
+is why this framing stays true as vendors ship features. A closing note states that
+the comparison is by category precisely because per-product cells go stale.
+
+No product is named anywhere in the table, and a checker assertion fails the build if
+one reappears, or if any of the retracted absolute claims ("covers all eight", "the
+only platform", "they don't have at all") returns to the page.
+
+Placed mid-page deliberately: arriving after bands 3–6 it summarises things already
+shown.
 
 **`.matrix-scroll` must also be `position: relative`.** Each cell carries an
 absolutely positioned `.visually-hidden` span; without a positioned ancestor those
@@ -345,3 +365,23 @@ would be the moment to revisit Astro.
 4. **`.superpowers/` and `.DS_Store`** are already git-ignored. `Principia_UKAEA.pptx`
    sits in the repo root and should **not** be committed — it names a third party and
    is the private source material. Add it to `.gitignore` or move it out.
+5. **The deck's competitive matrix was verified and retired.** Checked against vendor
+   documentation in August 2026, four of nine competitor rows had a wrong SysML v2
+   cell, and the claim built on them did not hold:
+
+   - **CATIA Magic / Cameo** — SysML v2 ships in the 2026x release with two-way
+     text↔diagram sync, in the M2E/M3E configurations (not Cameo Systems Modeler
+     Architect or MagicDraw + SysML plugin).
+   - **IBM Rhapsody Systems Engineering 1.8** (GA 9 July 2026) — cloud-native and
+     browser-based with SysML v2 graphical editors, so both its "B/S architecture"
+     and "SysML v2" cells were wrong.
+   - **Siemens Systems Modeler for SysML v2** — powered by Rhapsody SE, in the
+     Xcelerator portfolio with Teamcenter integration.
+   - **Sparx Enterprise Architect / Trechoro** — full SysML v2, KerML-native,
+     textual and graphical.
+
+   Consequences: "the only MBSE platform meeting all eight criteria" is false;
+   bidirectional graphical/textual SysML v2 sync is no longer distinctive; and the
+   remaining ~70 cells were never verified. The table was replaced rather than
+   corrected (§5). Principia's own capabilities are unaffected — only the claims
+   about other products were wrong.

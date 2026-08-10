@@ -150,19 +150,23 @@
                  -webkit-overflow-scrolling: touch;
                  border: 1px solid var(--line); border-radius: var(--radius);
                  background: var(--card); }
-.matrix { border-collapse: collapse; width: 100%; min-width: 760px;
+.matrix { border-collapse: collapse; width: 100%; min-width: 700px;
           font-size: 0.8125rem; }
-.matrix th, .matrix td { padding: 10px 8px; text-align: center;
+.matrix th, .matrix td { padding: 12px 10px; text-align: center;
                          border-bottom: 1px solid var(--line); }
-.matrix thead th { font-size: 0.6875rem; line-height: 1.25;
+.matrix thead th { font-size: 0.75rem; line-height: 1.25;
                    color: var(--ink-2); font-weight: 600; vertical-align: bottom; }
 .matrix th[scope="row"] { position: sticky; left: 0; background: var(--card);
-                          text-align: left; font-weight: 600; white-space: nowrap;
+                          text-align: left; font-weight: 600; white-space: normal;
+                          min-width: 230px;
                           border-right: 1px solid var(--line); }
-.matrix tbody tr:last-child th[scope="row"],
-.matrix tbody tr:last-child td { background: var(--sand); font-weight: 700; }
+/* Principia is the last column, and the arrival point. */
+.matrix thead th:last-child, .matrix tbody td:last-child { background: var(--sand); }
+.matrix thead th:last-child { color: var(--ink); font-weight: 700; }
 .matrix .tick { color: var(--tick); font-weight: 700; }
 .matrix .no { color: var(--ink-2); opacity: 0.5; }
+.matrix__note { font-size: 0.8125rem; color: var(--ink-2); max-width: var(--prose);
+                margin-top: var(--space-4); }
 
 /* --- formal verification, deep-dives, teaser, contact -------------------- */
 

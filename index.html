@@ -251,148 +251,96 @@
 <section class="band matrix-band">
   <div class="container">
     <p class="eyebrow">How it compares</p>
-    <h2>Eight capabilities decide an MBSE platform</h2>
-    <p class="band__lead">Every mainstream tool covers some of them. Principia is
-      the only one that covers all eight.</p>
+    <h2>Four toolchains, or one platform</h2>
+    <p class="band__lead">The usual stack is an architecture tool, a simulation tool, an
+      assurance tool and a proof assistant — each strong in its own domain, and joined
+      to the others by export, by hand, and by spreadsheet. Principia covers all four,
+      which is what makes the last three rows possible at all.</p>
     <p class="matrix__hint" id="matrix-hint">Scroll the table horizontally &rarr;</p>
     <div class="matrix-scroll" id="matrix-scroll" tabindex="0" role="region"
-         aria-label="MBSE tool capability comparison, scrollable">
+         aria-label="Capability coverage by tool category, scrollable">
       <table class="matrix">
-        <caption class="visually-hidden">Capability comparison across ten MBSE
-          tools and eight criteria</caption>
+        <caption class="visually-hidden">Which capabilities each category of tool
+          covers, compared with Principia</caption>
         <thead>
           <tr>
             <td></td>
-            <th scope="col">B/S architecture</th>
-            <th scope="col">SysML v2</th>
-            <th scope="col">Custom language</th>
-            <th scope="col">Deep model mgmt</th>
-            <th scope="col">Real-time collab</th>
-            <th scope="col">AI copilot</th>
-            <th scope="col">Executable trace links</th>
-            <th scope="col">Simulation binding</th>
+            <th scope="col">Architecture tool</th>
+            <th scope="col">Simulation tool</th>
+            <th scope="col">Assurance tool</th>
+            <th scope="col">Proof assistant</th>
+            <th scope="col">Principia</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">MagicDraw / Cameo</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">SysML v2 system model</th>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">Simcenter</th>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">Modelica and FMU simulation</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">Ansys ModelCenter</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">GSN, CAE and SACM argument</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">Enterprise Architect</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">CSP, Dafny and Isabelle proof</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">Rhapsody</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">△</span><span class="visually-hidden">partial</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">SysML parameters bound to simulation variables</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">Capella</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
+            <th scope="row">Trace links spanning all four domains</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
           <tr>
-            <th scope="row">OSATE</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-          </tr>
-          <tr>
-            <th scope="row">OpenModelica</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Simulink</th>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">not supported</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Principia</th>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
-            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">supported</span></td>
+            <th scope="row">Proof results re-run as assurance evidence</th>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="no" aria-hidden="true">—</span><span class="visually-hidden">no</span></td>
+            <td><span class="tick" aria-hidden="true">✔</span><span class="visually-hidden">yes</span></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p class="matrix__note">Compared by category rather than by product. Individual
+      vendors ship and change capabilities quickly, and a cell-by-cell product table is
+      stale the month it is published.</p>
   </div>
 </section>
 
 <section class="band band--dark formal">
   <div class="container">
-    <p class="eyebrow">And one they don't have at all</p>
+    <p class="eyebrow">Where most toolchains stop</p>
     <h2>Machine-checked proof, wired into the safety argument</h2>
     <p class="band__lead">Refinement checked in FDR, proof obligations discharged
       in Dafny, theorems proved in Isabelle/HOL — and the results land as evidence

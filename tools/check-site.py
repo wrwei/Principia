@@ -462,9 +462,16 @@ def check_landing_bands():
 
 # --- capability matrix -----------------------------------------------------
 
-MATRIX_TOOLS = ["MagicDraw", "Simcenter", "Ansys", "Enterprise Architect",
+# Compared by tool category, never by product. A cell-by-cell vendor table went
+# stale within a year: SysML v2 shipped across CATIA Magic/Cameo 2026x, IBM
+# Rhapsody SE, Siemens Systems Modeler and Sparx Trechoro, which falsified four
+# cells and the "only one with all eight" claim built on them.
+VENDOR_NAMES = ["MagicDraw", "Cameo", "Simcenter", "Ansys", "Enterprise Architect",
                 "Rhapsody", "Capella", "OSATE", "OpenModelica", "Simulink",
-                "Principia"]
+                "Sparx", "Trechoro", "Siemens", "Dassault"]
+
+RETRACTED_CLAIMS = ["covers all eight", "all eight criteria", "the only one that",
+                    "the only MBSE", "the only platform", "they don't have at all"]
 
 
 def check_matrix():
@@ -477,32 +484,39 @@ def check_matrix():
 
     if "<caption" not in table:
         fail("matrix: needs a <caption>")
-    col_headers = re.findall(r'<th scope="col"', table)
-    if len(col_headers) != 8:
-        fail(f"matrix: expected 8 scope=\"col\" headers, found {len(col_headers)}")
-    row_headers = re.findall(r'<th scope="row"', table)
-    if len(row_headers) != 10:
-        fail(f"matrix: expected 10 scope=\"row\" headers, found {len(row_headers)}")
-    for tool in MATRIX_TOOLS:
-        if tool not in table:
-            fail(f"matrix: missing row for {tool}")
+
+    col_headers = re.findall(r'<th scope="col">([^<]*)</th>', table)
+    if len(col_headers) != 5:
+        fail(f"matrix: expected 5 scope=\"col\" headers, found {len(col_headers)}")
+    elif col_headers[-1].strip() != "Principia":
+        fail(f"matrix: last column must be Principia, got {col_headers[-1]!r}")
 
     rows = re.findall(r"<tr>.*?</tr>", table, re.S)
-    principia = [r for r in rows if "Principia" in r]
-    if not principia:
-        fail("matrix: no Principia row")
-    else:
-        if rows[-1] != principia[-1]:
-            fail("matrix: the Principia row must come last")
-        ticks = principia[-1].count('class="tick"')
-        if ticks != 8:
-            fail(f"matrix: Principia row has {ticks} ticks, expected 8")
+    data_rows = [r for r in rows if 'scope="row"' in r]
+    if len(data_rows) != 7:
+        fail(f"matrix: expected 7 capability rows, found {len(data_rows)}")
+    for row in data_rows:
+        cells = re.findall(r'<td>.*?</td>', row, re.S)
+        if len(cells) != 5:
+            fail(f"matrix: row has {len(cells)} cells, expected 5 — {row[:60]}")
+        elif 'class="tick"' not in cells[-1]:
+            fail("matrix: every capability must be ticked in the Principia column")
 
     for cell in re.findall(r'<span class="(?:tick|no)"[^>]*>.*?</span>', table, re.S):
         if 'aria-hidden="true"' not in cell:
             fail(f"matrix: symbol needs aria-hidden — {cell[:50]}")
-    if table.count("visually-hidden") < 80:
-        fail("matrix: every cell needs visually-hidden supported/not-supported text")
+    if table.count("visually-hidden") < 35:
+        fail("matrix: every cell needs visually-hidden yes/no text")
+
+    for vendor in VENDOR_NAMES:
+        if vendor in table:
+            fail(f"matrix: names the product {vendor!r} — the table compares tool "
+                 f"categories, not products, because per-product cells go stale")
+
+    for claim in RETRACTED_CLAIMS:
+        if claim in src.lower():
+            fail(f"index.html: retracted claim {claim!r} — verified false in "
+                 f"August 2026 (see design spec §5)")
 
     scroll = re.search(r'<div class="matrix-scroll"[^>]*>', src)
     if not scroll:
