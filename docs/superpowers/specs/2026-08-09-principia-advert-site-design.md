@@ -15,7 +15,7 @@ Primary audience is **commercial prospects** — engineering managers in aerospa
 defence, nuclear and automotive who are evaluating MBSE tooling and already know what
 MBSE is. Investors and the academic/research community are served as secondary
 audiences without their own pages: the contact block and footer carry the pilot
-enquiry, the Lancaster affiliation, and the GitHub links.
+enquiry and the GitHub links.
 
 Principia is **pre-commercial**. It is positioned as a mature prototype seeking pilot
 deployments and design partners. There is no pricing, no signup, and no hosted trial
@@ -52,6 +52,7 @@ a third page for research/academia, and any change to `Principia_release`.
 | Matrix | Stays at eight criteria | Preserves the "all eight" line; a ninth column on an already-wide table hurts mobile |
 | Formal verification | Its own band after the matrix | Reads as a category the competition doesn't occupy, not one more tick |
 | Third-party names | UKAEA is **not** named | No confirmed permission; implies endorsement |
+| Institutional affiliation | Not claimed anywhere | User instruction; only the contact email carries the domain |
 | Colour scheme | Light only, `color-scheme: light` | The warm cream identity *is* the brand; a dark variant doubles CSS for a brochure |
 | Fonts | System stack, no webfont | Zero external requests, no FOUT |
 
@@ -109,7 +110,7 @@ Eleven bands. Sources cited as deck slide numbers.
 | 8 | Formal verification | s34, s37 | Its own band: proof → evidence → assurance argument |
 | 9 | Three deep-dives | s42, s41, s18 | Alternating text/screenshot rows |
 | 10 | Case study teaser | s21, s22 | Two screenshots, link through |
-| 11 | Contact + footer | s48 | Pilot enquiry, Lancaster, GitHub, proprietary notice |
+| 11 | Contact + footer | s48 | Pilot enquiry, GitHub, proprietary notice |
 
 ### Hero diagram (band 2)
 
@@ -312,8 +313,9 @@ No scroll-jacking and no animation library. The few CSS transitions sit behind
 
 Discoverability: per-page `<title>` and description; canonical
 `https://wrwei.github.io/Principia/`; Open Graph and Twitter card against
-`og-card.png`; JSON-LD `SoftwareApplication` naming the Lancaster affiliation, which
-quietly serves the academic audience; hand-written `robots.txt` and a two-URL
+`og-card.png`; JSON-LD `SoftwareApplication` on the landing page listing name, url,
+description and featureList, with no `offers` or price since the site is
+pre-commercial; hand-written `robots.txt` and a two-URL
 `sitemap.xml`. Skip link, one `<h1>` per page, semantic landmarks.
 
 Deployment: GitHub Pages, **Settings → Pages → Deploy from a branch → main /

@@ -120,6 +120,27 @@ def check_head():
             fail(f"{name}: missing <meta name=\"color-scheme\" content=\"light\">")
 
 
+def check_structured_data():
+    import json
+    src = read("index.html")
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', src, re.S)
+    if not m:
+        fail("index.html: missing JSON-LD structured data")
+        return
+    try:
+        data = json.loads(m.group(1))
+    except ValueError as exc:
+        fail(f"index.html: JSON-LD is not valid JSON — {exc}")
+        return
+    if data.get("@type") != "SoftwareApplication":
+        fail("JSON-LD: @type must be SoftwareApplication")
+    for key in ("name", "url", "description", "featureList"):
+        if not data.get(key):
+            fail(f"JSON-LD: missing {key}")
+    if "offers" in data or "price" in json.dumps(data).lower():
+        fail("JSON-LD: the site is pre-commercial — no offers or pricing")
+
+
 def check_skip_link():
     for name, src in pages():
         m = re.search(r'class="skip-link" href="#([\w-]+)"', src)
@@ -550,14 +571,13 @@ def check_closing_bands():
         body = contact.group(0)
         if "mailto:r.wei5@lancaster.ac.uk" not in body:
             fail("contact: missing the pilot enquiry mailto")
-        if "Lancaster" not in body:
-            fail("contact: should name the Lancaster affiliation")
         if "github.com/wrwei" not in body:
             fail("contact: should link github.com/wrwei")
 
 
 FORBIDDEN = {
     "UKAEA": "third party must not be named (design spec §6)",
+    "Lancaster University": "institutional affiliation must not be claimed",
     "satellite": "erroneous deck caption, the subject is the ADS (design spec §6)",
     "Satellite": "erroneous deck caption, the subject is the ADS (design spec §6)",
 }
@@ -641,6 +661,7 @@ def check_readme():
 CHECKS = [
     check_well_formed,
     check_head,
+    check_structured_data,
     check_skip_link,
     check_paths_relative,
     check_refs_exist,
