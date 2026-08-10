@@ -1833,7 +1833,7 @@ Slug order, and the caption for each:
 | 8. Trace links | `trace-panel`, `trace-navigate`, `sim-binding` | Browse the project model tree and link any element to any other · Links open the target editor directly · SysML elements bound to OpenModelica and FMU parameters |
 | 9. Digital thread | `digital-thread`, `digital-thread-2` | Every lifecycle link woven into one thread · Lifecycle-wide traceability driving automatic change-impact analysis |
 
-That is 22 screenshots. `digital-thread-3` is deliberately unused: slides 44–45 repeat slide 43's highlights verbatim, so only the two clearest are kept (design spec §6).
+That is **24** screenshots. `digital-thread-3` is deliberately unused: slide 45 repeats slides 43–44's highlights verbatim (design spec §6).
 
 Intro paragraph for the page, right after the `<h1>`:
 

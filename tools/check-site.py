@@ -341,6 +341,23 @@ def check_hero():
     if 'id="platform"' not in src:
         fail("index.html: missing #platform anchor for the nav")
 
+    # Narrow screens get a vertical thread instead of the SVG, whose labels
+    # would otherwise render at roughly 5px.
+    thread = re.search(r'<ol class="thread">(.*?)</ol>', hero, re.S)
+    if not thread:
+        fail("hero: missing the <ol class=\"thread\"> mobile fallback")
+    else:
+        if thread.group(1).count("<li") != 6:
+            fail(f"hero thread: expected 6 stages, found "
+                 f"{thread.group(1).count('<li')}")
+        for stage in HERO_STAGES:
+            if f"<b>{stage}</b>" not in thread.group(1):
+                fail(f"hero thread: missing stage {stage!r}")
+    css = read("assets/css/site.css")
+    if ".hero__diagram { display: none; }" not in css:
+        fail("site.css: the SVG diagram must be hidden below 820px in favour "
+             "of .thread")
+
 
 # --- figures and mid-page bands -------------------------------------------
 
@@ -481,6 +498,15 @@ def check_matrix():
     css = read("assets/css/site.css")
     if "position: sticky" not in css or "left: 0" not in css:
         fail("site.css: matrix first column must be position: sticky; left: 0")
+    # Regression guard: the cells' absolutely positioned .visually-hidden spans
+    # escape .matrix-scroll unless it is a containing block, which pans the whole
+    # document sideways on narrow screens.
+    scroll_rule = re.search(r"\.matrix-scroll\s*\{[^}]*\}", css, re.S)
+    if not scroll_rule:
+        fail("site.css: missing .matrix-scroll rule")
+    elif "position: relative" not in scroll_rule.group(0):
+        fail("site.css: .matrix-scroll needs position: relative, or the hidden "
+             "cell labels escape its overflow and the page scrolls horizontally")
 
 
 # --- closing bands and copy rules -----------------------------------------
@@ -586,6 +612,32 @@ def check_case_study():
         fail("case-study.html: missing <dialog id=\"lightbox\">")
 
 
+# --- behaviour -------------------------------------------------------------
+
+def check_js():
+    js = read("assets/js/site.js")
+    lines = [ln for ln in js.splitlines() if ln.strip()]
+    if len(lines) > 80:
+        fail(f"site.js has {len(lines)} non-blank lines, budget is 80")
+    for banned in ("import ", "require(", "http://", "https://", "cdn"):
+        if banned in js:
+            fail(f"site.js must have no external dependencies, found {banned!r}")
+    for needed in ("nav-toggle", "nav-links", "matrix-hint", "data-lightbox",
+                   "showModal", "aria-expanded"):
+        if needed not in js:
+            fail(f"site.js: missing {needed!r} wiring")
+    for name, src in pages():
+        if 'src="assets/js/site.js" defer' not in src:
+            fail(f"{name}: site.js must be loaded with defer")
+
+
+def check_readme():
+    readme = read("README.md")
+    for topic in ("build-images.sh", "nav:start", "Pages", "check-site.py"):
+        if topic not in readme:
+            fail(f"README.md: should document {topic}")
+
+
 CHECKS = [
     check_well_formed,
     check_head,
@@ -604,6 +656,8 @@ CHECKS = [
     check_closing_bands,
     check_copy_rules,
     check_case_study,
+    check_js,
+    check_readme,
 ]
 
 

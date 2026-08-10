@@ -126,6 +126,17 @@ Solid arrows connect adjacent stages; three dashed arcs labelled "trace link" an
 a pipeline. Labels at 13px within the viewBox so they render ~16px at container
 width. No raster asset, so first paint waits on nothing.
 
+The Verification node's sublabel reads "Dafny · Isabelle" rather than naming all
+three provers: at 11px in a 110-unit box, "Dafny · FDR · Isabelle" overflows into the
+adjacent node. CSP/FDR is named in full in the languages band, the formal
+verification band, and the mobile thread below.
+
+**Below 820px the SVG is replaced, not scaled.** Squeezed into ~330px its labels
+render at roughly 5px. An `<ol class="thread">` carrying the same six stages and
+sublabels is shown instead, as stacked cards with a brown left rule and a `--dark`
+terminal node. Only one of the two is ever displayed, so assistive technology never
+sees duplicate content.
+
 ### Stat row (band 2)
 
 `95+` SysML v2 meta types · `9` languages, one model · `8.31M` lines of code (s47).
@@ -171,6 +182,14 @@ Rhapsody's partial (△) on SysML v2.
 Placed mid-page deliberately. Cold at the top, "the only platform with all eight" is
 a claim; arriving after bands 3–6 it is a summary of things already shown.
 
+**`.matrix-scroll` must also be `position: relative`.** Each cell carries an
+absolutely positioned `.visually-hidden` span; without a positioned ancestor those
+resolve against the initial containing block, escape the container's `overflow`
+entirely, and drag the document ~370px wide — the page then pans sideways on a phone
+even though every visible element fits. `clip:` hides painting but does not remove an
+element from overflow. Verified with `scrollTo(9999)` returning `scrollX=0`, and
+guarded by a checker assertion.
+
 Implementation: a real `<table>` with `<caption>`, `<th scope="col">` and
 `<th scope="row">`, inside `.table-scroll { overflow-x: auto }` that is
 `tabindex="0"`, `role="region"` and `aria-label`-ed so keyboard users can scroll it.
@@ -202,9 +221,9 @@ Alternating text/screenshot rows:
 ## 6. Case study page (`case-study.html`)
 
 The ADS walkthrough in the deck's own phase order, with its "Highlights" bullets as
-captions. Twenty-five screenshots are available (§7); roughly 22 are used, because
-s44 and s45 repeat s43's highlights verbatim and only the clearest of the three is
-kept. Nine phases:
+captions. Twenty-five screenshots are available (§7); **24 are used** — s45
+(`digital-thread-3`) is dropped because it repeats s43–s44's highlights verbatim.
+Nine phases:
 
 1. Home and project management (s21, s22)
 2. Requirements (s23, s24, s25)
@@ -269,7 +288,10 @@ Slide-to-slug inventory:
 
 Every `<img>` carries explicit `width`/`height` to prevent layout shift, plus
 `loading="lazy"` and `decoding="async"` below the fold. The landing page ships nine
-screenshots; the case study ~22, all lazy.
+screenshots; the case study 24, all lazy. Declared dimensions must match the actual
+file per image — 24 of the 25 are 1600×1007 but `cae` is 1600×988, so a single
+hard-coded height would cause layout shift. The checker parses each WebP header and
+compares.
 
 Logo: the product's rounded-square "P" mark redrawn as `assets/img/logo.svg`
 (brown fill, cream glyph) — no logo asset exists in either repo, only the mark inside

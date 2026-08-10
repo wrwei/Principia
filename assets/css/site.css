@@ -73,6 +73,27 @@
 .hero__actions { margin: 0 0 var(--space-5); display: flex; gap: var(--space-3);
                  justify-content: center; flex-wrap: wrap; }
 
+/* Below 820px the six-stage SVG would render its labels at ~5px, so the
+   diagram is replaced by a vertical thread carrying the same content. */
+.thread { display: none; }
+
+@media (max-width: 820px) {
+  .hero__diagram { display: none; }
+  .thread { display: grid; gap: var(--space-2); list-style: none; padding: 0;
+            margin: 0 0 var(--space-5); text-align: left; }
+  .thread li { background: var(--card); border: 1px solid var(--line);
+               border-left: 4px solid var(--brown);
+               border-radius: var(--radius-sm); padding: var(--space-3); }
+  .thread b { display: block; font-size: 1rem; }
+  .thread span { font-size: 0.8125rem; color: var(--ink-2); }
+  /* Selectors must outrank `.thread li` above, or the dark fill loses while
+     the cream text wins and the item goes invisible. */
+  .thread li.thread__twin { background: var(--dark); border-color: var(--dark);
+                            border-left-color: var(--brown); }
+  .thread li.thread__twin b { color: var(--cream); }
+  .thread li.thread__twin span { color: var(--line); }
+}
+
 .stats { display: flex; justify-content: center; gap: var(--space-6);
          flex-wrap: wrap; margin: 0; padding-top: var(--space-4);
          border-top: 1px solid var(--line); }
@@ -121,7 +142,12 @@
 
 .matrix__hint { font-size: 0.8125rem; color: var(--ink-2);
                 margin: var(--space-4) 0 var(--space-2); }
-.matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch;
+/* position: relative is load-bearing. Each cell holds an absolutely
+   positioned .visually-hidden span; without a positioned ancestor those
+   resolve against the initial containing block, escape this container's
+   overflow, and pan the whole document ~370px sideways on a phone. */
+.matrix-scroll { position: relative; overflow-x: auto;
+                 -webkit-overflow-scrolling: touch;
                  border: 1px solid var(--line); border-radius: var(--radius);
                  background: var(--card); }
 .matrix { border-collapse: collapse; width: 100%; min-width: 760px;
