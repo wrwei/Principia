@@ -120,6 +120,39 @@ def check_head():
             fail(f"{name}: missing <meta name=\"color-scheme\" content=\"light\">")
 
 
+class _H1Context(html.parser.HTMLParser):
+    """Tracks whether the <h1> is nested inside a .container."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack = []
+        self.h1_in_container = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag in VOID:
+            return
+        classes = dict(attrs).get("class", "").split()
+        self.stack.append("container" in classes)
+        if tag == "h1" and self.h1_in_container is None:
+            self.h1_in_container = any(self.stack)
+
+    def handle_endtag(self, tag):
+        if tag not in VOID and self.stack:
+            self.stack.pop()
+
+
+def check_h1_alignment():
+    """A heading outside .container goes full-bleed and misaligns with the page."""
+    for name, src in pages():
+        parser = _H1Context()
+        parser.feed(src)
+        if parser.h1_in_container is None:
+            fail(f"{name}: no <h1> found")
+        elif not parser.h1_in_container:
+            fail(f"{name}: <h1> is outside .container — it will render flush to the "
+                 f"viewport edge while every other block is inset")
+
+
 def check_structured_data():
     import json
     src = read("index.html")
@@ -675,6 +708,7 @@ def check_readme():
 CHECKS = [
     check_well_formed,
     check_head,
+    check_h1_alignment,
     check_structured_data,
     check_skip_link,
     check_paths_relative,

@@ -197,6 +197,7 @@
 /* --- case study ---------------------------------------------------------- */
 
 .phase-intro { padding-bottom: 0; }
+.phase-intro h1 { margin: 0 0 var(--space-4); }
 .phase h2 { margin: 0 0 var(--space-2); }
 .phase__shots { display: grid; gap: var(--space-4); margin-top: var(--space-5);
                 grid-template-columns: repeat(2, 1fr); }
