@@ -14,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["index.html", "case-study.html"]
-CANONICAL_BASE = "https://wrwei.github.io/Principia/"
+CANONICAL_BASE = "https://principia-modelling.com/"
 
 _failures = []
 

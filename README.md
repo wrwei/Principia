@@ -1,7 +1,7 @@
 # Principia — marketing site
 
 The advertising site for Principia, a browser-based MBSE and assurance platform.
-Published at <https://wrwei.github.io/Principia/>.
+Published at <https://principia-modelling.com/>.
 
 The platform itself lives in a separate repository; this one contains only the
 site. The pre-2026 prototype that used to live here is preserved at the
@@ -58,5 +58,24 @@ the accepted cost of having no templating. At four or five pages, revisit it.
 GitHub Pages, **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
 Pushing to `main` publishes. `.nojekyll` stops Jekyll touching the files.
 
-Asset paths are relative throughout, so moving to a custom domain needs only a
-`CNAME` file plus updated canonical and `og:url` values.
+The site is served at **https://principia-modelling.com/** via the `CNAME` file at
+the repo root. `wrwei.github.io/Principia/` 301-redirects to it.
+
+### Changing the domain
+
+Asset paths are relative throughout and need no attention, but **12 absolute URLs
+do**, and `tools/check-site.py` asserts two of them. All of these must move together:
+
+| File | Occurrences |
+|---|---|
+| `CNAME` | the hostname itself |
+| `index.html` | 4 — canonical, `og:url`, `og:image`, JSON-LD `url` |
+| `case-study.html` | 3 — canonical, `og:url`, `og:image` |
+| `sitemap.xml` | 2 |
+| `robots.txt` | 1 — the `Sitemap:` line |
+| `tools/check-site.py` | 1 — `CANONICAL_BASE` |
+| `README.md` | 1 — the link above |
+
+DNS for the current domain: four apex `A` records to `185.199.108.153`,
+`185.199.109.153`, `185.199.110.153`, `185.199.111.153`, and a `www` `CNAME` to
+`wrwei.github.io.` — GitHub then redirects `www` to the apex.

@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-09
 **Repo:** `github.com/wrwei/Principia` (this repo, emptied of its 2025 prototype)
-**Live at:** `https://wrwei.github.io/Principia/`
+**Live at:** `https://principia-modelling.com/` (Pages, apex domain via `CNAME`)
 **Source material:** `Principia_UKAEA.pptx` (48 slides), `/Users/ranwei/Git/Principia_release`
 
 ## 1. Purpose
@@ -45,7 +45,7 @@ a third page for research/academia, and any change to `Principia_release`.
 |---|---|---|
 | Stack | Hand-written static HTML/CSS/JS, no build | Two pages don't justify a toolchain; nothing to rot; anyone can edit it |
 | Hosting | GitHub Pages, `main` / root | No Action, no build step |
-| Domain | `wrwei.github.io/Principia` for now | Relative paths mean a custom domain later is a `CNAME` file and nothing else |
+| Domain | `principia-modelling.com`, apex, `www` redirects into it | Relative asset paths survive the move untouched; the 12 **absolute** URLs do not — see §9.6 |
 | Pages | `index.html` + `case-study.html` | ~90% of the deck's persuasive weight, minimal duplication |
 | Hero | Direction C — thread diagram, inline SVG | States the one thing no competitor can copy; zero image payload |
 | Feature status | All deck capabilities presented as shipped | Confirmed by the user; the release repo's docs are stale (see §9) |
@@ -332,7 +332,7 @@ No scroll-jacking and no animation library. The few CSS transitions sit behind
 `prefers-reduced-motion`.
 
 Discoverability: per-page `<title>` and description; canonical
-`https://wrwei.github.io/Principia/`; Open Graph and Twitter card against
+`https://principia-modelling.com/`; Open Graph and Twitter card against
 `og-card.png`; JSON-LD `SoftwareApplication` on the landing page listing name, url,
 description and featureList, with no `offers` or price since the site is
 pre-commercial; hand-written `robots.txt` and a two-URL
@@ -385,3 +385,12 @@ would be the moment to revisit Astro.
    remaining ~70 cells were never verified. The table was replaced rather than
    corrected (§5). Principia's own capabilities are unaffected — only the claims
    about other products were wrong.
+6. **Correction to the domain decision.** §3 originally claimed a custom domain
+   would need "a `CNAME` file and nothing else". That holds for asset paths, which
+   are all relative, but not for absolute URLs: canonical, `og:url`, `og:image`,
+   the JSON-LD `url`, both `sitemap.xml` entries, the `robots.txt` sitemap line and
+   the checker's `CANONICAL_BASE` — twelve in total — all encoded the Pages
+   subpath. Moving to `principia-modelling.com` also moved the site from the
+   `/Principia/` subpath to the domain root, so `og:image` changed shape as well.
+   The full inventory now lives in `README.md` under "Changing the domain" so the
+   next move is mechanical.
